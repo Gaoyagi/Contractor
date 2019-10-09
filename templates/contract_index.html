@@ -5,7 +5,8 @@
     <h1>Console Choice</h1>
     {% for console in consoles %}
         <h2>{{ console.console }}</h2>
+        <small>{{ console.description }}</small>
         <!-- <a href = '/consoles/PS4/'><small>{{ console.description }}</small></a> -->
     {% endfor %}
-    <a href='/console/new'>Don't see the console you want?</a>
+    <a href='/controller/new'>Don't see the console you want?</a>
 {% endblock %}
