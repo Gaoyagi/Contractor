@@ -1,0 +1,8 @@
+Routes:
+"/" - home page
+"/cart" - view your cart
+"/checkout" - buy all the items
+"/controllers" - view the. Available consoles to buy from	
+"/xbox" - view all the xbox1 controllers
+"/PS" - view all the playstation4 controllers
+"/switch" - view switch joy cons and pro controllers

@@ -1,0 +1,11 @@
+<!-- templates/contract_index.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Console Choice</h1>
+    {% for console in consoles %}
+        <h2>{{ console.console }}</h2>
+        <!-- <a href = '/consoles/PS4/'><small>{{ console.description }}</small></a> -->
+    {% endfor %}
+    <a href='/console/new'>Don't see the console you want?</a>
+{% endblock %}

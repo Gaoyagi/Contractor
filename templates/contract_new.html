@@ -1,0 +1,24 @@
+<!-- templates/contract.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<form method='POST' action='/playlists'>
+    <fieldset>
+    <legend>New Controller</legend>
+    <!-- TITLE -->
+    <p>
+        <label for='title'>Console:</label><br>
+        <input type='text' name='console' />
+    </p>
+    <p>
+        <label for='title'>Constroller Name:</label><br>
+        <input type='text' name='controller' />
+    </p>
+    </fieldset>
+
+    <!-- BUTTON -->
+    <p>
+        <button type='submit'>Order Controller</button>
+    </p>
+</form>
+{% endblock %}
