@@ -13,18 +13,21 @@ cart = db.cart     #collection of carts  for different users
 ids = db.ids       #unique identifier so users dont mix carts
 
 
-cart.drop()
+
 
 app = Flask(__name__)
-
+@app.route('/')
+def home():
+    decks.drop()
+    cart.drop()
+    decks.insert_one({ 'img': "static/red.jpeg",  'description': 'Red playing cards' })
+    decks.insert_one({ 'img': "static/blue.jpeg",  'description': 'Blue playing cards' })
+    decks.insert_one({ 'img': "static/black.jpeg",  'description': 'Black playing cards' })
+    return redirect(url_for('index'))
 
 #Home page view, view all items for sale 
 @app.route('/index')
 def index():
-    decks.drop()
-    decks.insert_one({ 'img': "static/red.jpeg",  'description': 'Red playing cards' })
-    decks.insert_one({ 'img': "static/blue.jpeg",  'description': 'Blue playing cards' })
-    decks.insert_one({ 'img': "static/black.jpeg",  'description': 'Black playing cards' })
     return render_template('contract_index.html', decks=decks.find())
 
 #view all item in carts
