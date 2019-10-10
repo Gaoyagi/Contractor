@@ -14,10 +14,6 @@ ids = db.ids       #unique identifier so users dont mix carts
 
 
 cart.drop()
-decks.drop()
-decks.insert_one({ 'img': "static/red.jpeg",  'description': 'Red playing cards' })
-decks.insert_one({ 'img': "static/blue.jpeg",  'description': 'Blue playing cards' })
-decks.insert_one({ 'img': "static/black.jpeg",  'description': 'Black playing cards' })
 
 app = Flask(__name__)
 
