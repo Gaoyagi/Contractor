@@ -1,42 +1,54 @@
 from flask import Flask, render_template, request, redirect, url_for
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 
 client = MongoClient()
 db = client.Contractor
-controllers = db.controllers
+
+#collections
+decks = db.decks   #currently whats  in stock
+cart = db.cart     #collection of carts  for different users
+ids = db.ids       #unique identifier so users dont mix carts
+
+decks.drop()
+cart.drop()
+decks.insert_one({ 'img': "static/red.jpeg",  'description': 'Red Bicycle trading cards' })
+decks.insert_one({ 'img': "static/blue.jpeg",  'description': 'Blue Bicycle trading cards' })
+decks.insert_one({ 'img': "static/black.jpeg",  'description': 'Black Bicycle trading cards' })
 
 app = Flask(__name__)
 
-consoles = [
-    { 'console': 'Xbox One', 'description': 'XBONE controllers' },
-    { 'console': 'Playstation 4', 'description': 'PS4 Dual Shocks' },
-    { 'console': 'Nintendo Switch', 'description': 'Joy Cons and Pro controllers' }
-]
-
-#Home page view 
+#Home page view, view all items for sale 
 @app.route('/')
 def index():
-    return render_template('contract_index.html', consoles = consoles)
+    return render_template('contract_index.html', decks=decks.find())
 
-# #ps5 controller page
-# @app.route('/consoles/PS4/')
-# def PSpage()
-#     return render_template('contract_ps4.html')
+#view all item in carts
+@app.route('/cart')
+def viewCart():
+    return render_template('contract_cart.html', cart=cart.find())
 
-#lets user order controllers we dont regularly, immedeityl goes to cart
-@app.route('/controller/new')
-def controller_new():
-    return render_template('contract_new.html')
+#adds a  new item to cart
+@app.route('/add_to_cart/<deck_id>', methods=['POST'])
+def addToCart(deck_id):
+    item = decks.find_one({'_id': ObjectId(deck_id)})
+    newItem = { 'img': item['img'], 'description': item['description'] }
+    cart.insert_one(newItem) 
+    return redirect(url_for('viewCart'))
 
-#posts the new console to  the database
-@app.route('/controller', methods=['POST'])
-def controller_submit():
-    controller = {
-        'console': request.form.get('console'),
-        'controller': request.form.get('controller')
-    }
-    controllers.insert_one(controller)
-    return redirect(url_for('index'))
+#deletes an item from cart
+@app.route('/cart/delete/<cart_id>', methods=['POST'])
+def cartDeleteOne(cart_id):
+    cart.delete_one({'_id': ObjectId(cart_id)})
+    return redirect(url_for('viewCart'))
+
+#user "checksout" and buys their stuff and empties cart
+@app.route('/cart/checkout', methods=['POST'])
+def cartDeleteAll():
+    for item in cart.find():
+        cart.delete_one(item)
+    return render_template('contract_checkout.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)

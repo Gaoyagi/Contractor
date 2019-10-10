@@ -1,0 +1,20 @@
+<!-- templates/contract_cart.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+
+<a href='/'>Back to the Shop</a>
+<!-- lists out all items in cart -->
+<h1>Currently in cart</h1>
+{%  for item in cart %}
+    <img src={{item.img}} alt="deck of cards" height=350 width=350>
+    <h2>{{ item.description }}</h2>
+    <!-- button that lets you delete an item from cart -->
+    <form method='POST' action='/cart/delete/{{item._id}}'>
+        <button class='btn btn-primary' type='submit'>Remove item from cart</button>
+    </form>
+{% endfor %}
+<form method='POST' action='/cart/checkout'>
+    <button class='btn btn-primary' type='submit'>Checkout</button>
+</form>
+{% endblock %}

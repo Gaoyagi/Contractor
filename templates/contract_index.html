@@ -2,11 +2,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Console Choice</h1>
-    {% for console in consoles %}
-        <h2>{{ console.console }}</h2>
-        <small>{{ console.description }}</small>
-        <!-- <a href = '/consoles/PS4/'><small>{{ console.description }}</small></a> -->
+    <h1>Deck of Cards Store</h1>
+    <form  action='/cart'>
+        <button class='btn btn-primary' type='submit'>Cart</button>
+    </form>
+    <!-- lists out all of the decks  we have on sale -->
+    {% for cards in decks %}
+        <img src={{cards.img}} alt="deck of cards" height=350 width=350>
+        <h2>{{ cards.description }}</h2>
+        <!-- button to let you add  this deck to cart -->
+        <form method='POST' action='/add_to_cart/{{ cards._id }}'>
+            <button class='btn btn-primary' type='submit'>Add to Cart</button>
+        </form>
     {% endfor %}
-    <a href='/controller/new'>Don't see the console you want?</a>
 {% endblock %}
