@@ -10,7 +10,9 @@
 {%  for item in cart %}
     <td>
         <h2>{{ item.description }}</h2>
-        <img src={{item.img}} alt="deck of cards" height=200 width=250>
+        <form method='POST' action='/cart/delete/{{item._id}}'>
+            <input type="image" src={{item.img}} name="saveForm" class="btTxt submit" id="saveForm" height=200 width=250/> 
+        </form>
         <!-- button that lets you delete an item from cart -->
         <form method='POST' action='/cart/delete/{{item._id}}'>
             <button class='btn btn-primary' type='submit'>Remove item from cart</button>

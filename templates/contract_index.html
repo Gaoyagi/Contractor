@@ -11,7 +11,10 @@
     {% for cards in decks %}
         <td>
             <h2>{{ cards.description }}</h2>
-            <img src={{cards.img}} alt="deck of cards" height=200 width=250> 
+            <form method='POST' action='/add_to_cart/{{cards._id}}'>
+                <input type="image" src={{cards.img}} name="saveForm" class="btTxt submit" id="saveForm" height=200 width=250/> 
+            </form>
+            <!-- <img src={{cards.img}} alt="deck of cards" height=200 width=250>  -->
             <!-- button to let you add  this deck to cart -->
             <form method='POST' action='/add_to_cart/{{cards._id}}'>
                 <button class='btn btn-primary' type='submit'>Add to Cart</button>
@@ -22,4 +25,4 @@
 {% endblock %}
 
 
-<!-- <input type="image" src="logg.png" name="saveForm" class="btTxt submit" id="saveForm" /> -->
+<input type="image" src={{cards.img}} name="saveForm" class="btTxt submit" id="saveForm" /> 
