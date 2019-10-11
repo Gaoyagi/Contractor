@@ -44,15 +44,19 @@ def addToCart(deck_id):
         cart.insert_one(newItem) 
     else:
         found = cart.find_one({'img': newItem['img']})
-        quan = found['quantity']
-        cart.find_one_and_update({'img': newItem['img']}, {"$set": { "quantity": quan+1}})
-        found['quantity'] += 1
+        quan = found['quantity']+1
+        cart.find_one_and_update({'img': newItem['img']}, {"$set": { "quantity": quan}})
     return redirect(url_for('viewCart'))
 
 #deletes an item from cart
 @app.route('/cart/delete/<cart_id>', methods=['POST'])
 def cartDeleteOne(cart_id):
-    cart.delete_one({'_id': ObjectId(cart_id)})
+    item = cart.find_one({'_id': ObjectId(cart_id)})
+    quan = item['quantity']-1
+    if quan == 0:
+        cart.delete_one({'_id': item['_id']})
+    else:
+        cart.find_one_and_update({'img': item['img']}, {"$set": { "quantity": quan}})
     return redirect(url_for('viewCart'))
 
 #user "checksout" and buys their stuff and empties cart
