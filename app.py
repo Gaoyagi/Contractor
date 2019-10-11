@@ -39,8 +39,14 @@ def viewCart():
 @app.route('/add_to_cart/<deck_id>', methods=['POST'])
 def addToCart(deck_id):
     item = decks.find_one({'_id': ObjectId(deck_id)})
-    newItem = { 'img': item['img'], 'description': item['description'] }
-    cart.insert_one(newItem) 
+    newItem = { 'img': item['img'], 'description': item['description'], 'quantity': 1}
+    if cart.find_one({'img': newItem['img']}) == None:
+        cart.insert_one(newItem) 
+    else:
+        found = cart.find_one({'img': newItem['img']})
+        quan = found['quantity']
+        cart.find_one_and_update({'img': newItem['img']}, {"$set": { "quantity": quan+1}})
+        found['quantity'] += 1
     return redirect(url_for('viewCart'))
 
 #deletes an item from cart
